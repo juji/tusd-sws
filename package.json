@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lucidlines": "lucidlines"
+    "dev": "lucidlines"
   },
   "repository": {
     "type": "git",
@@ -18,6 +18,6 @@
   },
   "homepage": "https://github.com/juji/tusd-sws#readme",
   "dependencies": {
-    "lucidlines": "^1.1.17"
+    "lucidlines": "^1.1.18"
   }
 }

@@ -22,8 +22,15 @@
 			// Shell command to execute
 			command: "docker-compose up",
 		},
+		{
+			// Display name for this command (shown in UI)
+			name: "client",
+
+			// Shell command to execute
+			command: "cd client; npm run dev",
+		},
 	],
 
 	// Enable development mode (default: false)
-	dev: false,
+	dev: true,
 }
