@@ -52,6 +52,10 @@ TUSD_PID=$!
 echo -e "${YELLOW}Starting static-web-server (download server) on port 8787...${NC}"
 # Run static-web-server in background with compression and CORS
 static-web-server --port 8787 --root ./files --compression gzip &
+
+# for local (macOS) testing without compression
+# static-web-server --port 8787 --root ./files &
+
 SWS_PID=$!
 
 echo -e "${GREEN}Both services started successfully!${NC}"
