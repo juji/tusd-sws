@@ -137,6 +137,10 @@ Based on benchmarks with `wrk` (4 threads, 100 connections, 30s):
 
 Run benchmarks with: `./benchmark.sh`
 
+> **Note**: The current setup has tusd downloads disabled for production use. For running benchmarks that compare tusd vs static-web-server, temporarily enable tusd downloads by removing `-disable-download` from docker-compose.yml.
+
+
+
 ## Configuration
 
 ### Tusd (docker-compose.yml)
@@ -144,7 +148,7 @@ Run benchmarks with: `./benchmark.sh`
 - Base path: `/`
 - Uploads: `./files` (mounted to `/srv/tusd-data/data`)
 - Hooks: `./hooks` (post-upload cleanup)
-- Downloads: Disabled (`-disable-download`)
+- Downloads: Disabled (`-disable-download`) - remove this flag to enable GET requests for benchmarking
 
 ### Static-Web-Server (sws.bash)
 - Port: 8787
@@ -194,7 +198,7 @@ crontab -e
 - `POST /`: Create upload
 - `PATCH /<id>`: Upload data
 - `HEAD /<id>`: Get upload status
-- `GET /<id>`: **Disabled**
+- `GET /<id>`: **Disabled** (enable by removing `-disable-download` for benchmarking)
 
 ### Static-Web-Server (Download Only)
 - `GET /*`: Serve static files
@@ -211,15 +215,6 @@ crontab -e
 - Remove .info files: `./remove_info_files.sh`
 - Clean stale uploads: `./cleanup_stale_uploads.sh`
 - Clean uploads: `rm -rf ./files/*`
-
-## Troubleshooting
-
-- **Tusd not starting**: Check Docker and port 8080 availability
-- **Files not accessible**: Ensure .info files exist for tusd (run `go run generate_info.go`), or use static-web-server
-- **Performance issues**: Use static-web-server for downloads, tusd only for uploads
-- **Port conflicts**: Change ports in docker-compose.yml or sws.bash
-- **Hook errors**: Ensure `jq` is installed for JSON parsing in hooks (automatically available in Docker)
-- **LucidLines not working**: Ensure Node.js is installed and run `npm install` first
 
 ## License
 
