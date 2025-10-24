@@ -219,6 +219,40 @@ crontab -e
 - Clean stale uploads: `./cleanup_stale_uploads.sh`
 - Clean uploads: `rm -rf ./files/*`
 
-## License
+## Production Deployment
 
-This project is for educational purposes. Check individual component licenses.
+For production environments, use the containerized setup with both services running in parallel:
+
+### Using Docker Compose (Recommended)
+
+1. **Deploy both services:**
+   ```bash
+   docker-compose -f docker-compose.prod.yml up -d
+   ```
+
+2. **Check service status:**
+   ```bash
+   docker-compose -f docker-compose.prod.yml ps
+   ```
+
+3. **View logs:**
+   ```bash
+   docker-compose -f docker-compose.prod.yml logs -f
+   ```
+
+### Production Features
+
+- **Health Checks**: Automatic monitoring of service availability
+- **Auto-restart**: Services restart automatically on failure
+- **Log Rotation**: JSON logging with size limits
+- **Security Headers**: CORS and security headers enabled for SWS
+- **Compression**: Gzip compression enabled for faster downloads
+- **Network Isolation**: Dedicated Docker network for service communication
+
+### Scaling
+
+For high-traffic deployments, consider:
+- **Load Balancing**: Use nginx/caddy as reverse proxy
+- **Multiple SWS Instances**: Scale static-web-server horizontally
+- **External Storage**: Mount network storage for `./files` directory
+- **Monitoring**: Integrate with Prometheus/Grafana for metrics
