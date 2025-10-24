@@ -73,8 +73,7 @@ Access files via `http://localhost:8787/path/to/file`. For example:
 | `remove_info_files.sh` | Remove all .info files |
 | `benchmark.sh` | Compare performance between tusd and static-web-server |
 | `sws.bash` | Start static-web-server |
-| `hooks/post_upload.sh` | Post-upload hook to clean up .info files |
-| `hooks/post_terminate.sh` | Post-terminate hook to clean up cancelled uploads |
+| `hooks/post-finish` | Post-upload hook to rename files and clean up .info files |
 | `cleanup_stale_uploads.sh` | Script to remove stale .info files |
 
 ## Performance
@@ -109,8 +108,7 @@ Run benchmarks with: `./benchmark.sh`
 ## Hooks
 
 Tusd supports file hooks for customization:
-- `hooks/post_upload.sh`: Removes .info files after successful uploads
-- `hooks/post_terminate.sh`: Logs terminated uploads (tusd handles file cleanup automatically)
+- `hooks/post-finish`: Renames uploaded files to original filenames and removes .info files after successful uploads
 
 ## Upload Failure Handling
 
