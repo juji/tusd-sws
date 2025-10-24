@@ -1,5 +1,7 @@
 # Static File Server
 
+> **Note**: This is a learning project demonstrating a hybrid file serving setup. All services are configured for localhost development only and are not suitable for production use.
+
 This project sets up a hybrid file serving solution using:
 - **Tusd** (Go): Resumable upload server for handling file uploads
 - **Static-Web-Server** (Rust): High-performance static file server for downloads
