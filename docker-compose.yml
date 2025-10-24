@@ -1,0 +1,11 @@
+
+
+services:
+  tusd:
+    image: tusproject/tusd:latest
+    ports:
+      - "8080:8081"
+    volumes:
+      - ./files:/srv/tusd-data/data
+      - ./hooks:/srv/tusd-hooks
+    command: -port 8081 -base-path / -hooks-dir /srv/tusd-hooks -disable-download

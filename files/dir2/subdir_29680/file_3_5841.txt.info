@@ -1,0 +1,16 @@
+{
+  "ID": "dir2/subdir_29680/file_3_5841.txt",
+  "Size": 42,
+  "MetaData": {
+    "contentType": "application/octet-stream",
+    "filename": "file_3_5841.txt"
+  },
+  "UploadOffset": 42,
+  "IsPartial": false,
+  "IsFinal": true,
+  "Completeness": [
+    0,
+    42
+  ],
+  "UploadToken": ""
+}

@@ -1,0 +1,16 @@
+{
+  "ID": "dir1/file_21687.txt",
+  "Size": 28,
+  "MetaData": {
+    "contentType": "application/octet-stream",
+    "filename": "file_21687.txt"
+  },
+  "UploadOffset": 28,
+  "IsPartial": false,
+  "IsFinal": true,
+  "Completeness": [
+    0,
+    28
+  ],
+  "UploadToken": ""
+}

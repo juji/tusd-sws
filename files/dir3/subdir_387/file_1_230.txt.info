@@ -1,0 +1,16 @@
+{
+  "ID": "dir3/subdir_387/file_1_230.txt",
+  "Size": 39,
+  "MetaData": {
+    "contentType": "application/octet-stream",
+    "filename": "file_1_230.txt"
+  },
+  "UploadOffset": 39,
+  "IsPartial": false,
+  "IsFinal": true,
+  "Completeness": [
+    0,
+    39
+  ],
+  "UploadToken": ""
+}

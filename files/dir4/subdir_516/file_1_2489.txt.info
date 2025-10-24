@@ -1,0 +1,16 @@
+{
+  "ID": "dir4/subdir_516/file_1_2489.txt",
+  "Size": 40,
+  "MetaData": {
+    "contentType": "application/octet-stream",
+    "filename": "file_1_2489.txt"
+  },
+  "UploadOffset": 40,
+  "IsPartial": false,
+  "IsFinal": true,
+  "Completeness": [
+    0,
+    40
+  ],
+  "UploadToken": ""
+}

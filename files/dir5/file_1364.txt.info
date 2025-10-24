@@ -1,0 +1,16 @@
+{
+  "ID": "dir5/file_1364.txt",
+  "Size": 27,
+  "MetaData": {
+    "contentType": "application/octet-stream",
+    "filename": "file_1364.txt"
+  },
+  "UploadOffset": 27,
+  "IsPartial": false,
+  "IsFinal": true,
+  "Completeness": [
+    0,
+    27
+  ],
+  "UploadToken": ""
+}
