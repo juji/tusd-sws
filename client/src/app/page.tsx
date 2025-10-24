@@ -18,6 +18,10 @@ export default function Home() {
 
     const upload = new Upload(file, {
       endpoint: 'http://localhost:8080/', // tusd server
+      metadata: {
+        filename: file.name,
+        filetype: file.type,
+      },
       onError: (error) => {
         console.error('Upload failed:', error);
         setUploading(false);
@@ -31,13 +35,9 @@ export default function Home() {
         console.log('Upload completed');
         setUploading(false);
 
-        // Extract filename from the upload URL
-        const filename = upload.url?.split('/').pop();
-        if (filename) {
-          // Add to uploaded files list - will be served from static-web-server
-          const imageUrl = `http://localhost:8787/${filename}`;
-          setUploadedFiles(prev => [...prev, imageUrl]);
-        }
+        // Use the original filename with extension
+        const imageUrl = `http://localhost:8787/${file.name}`;
+        setUploadedFiles(prev => [...prev, imageUrl]);
 
         // Reset file input
         if (fileInputRef.current) {
