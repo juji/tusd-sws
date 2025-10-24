@@ -233,17 +233,17 @@ For production environments, use the containerized setup with both services runn
 
 1. **Deploy both services:**
    ```bash
-   docker-compose -f docker-compose.prod.yml up -d
+   docker-compose up -d
    ```
 
 2. **Check service status:**
    ```bash
-   docker-compose -f docker-compose.prod.yml ps
+   docker-compose ps
    ```
 
 3. **View logs:**
    ```bash
-   docker-compose -f docker-compose.prod.yml logs -f
+   docker-compose logs -f
    ```
 
 ### Production Features
