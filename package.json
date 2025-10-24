@@ -1,0 +1,23 @@
+{
+  "name": "tusd-sws",
+  "version": "1.0.0",
+  "description": "> **Note**: This is a learning project demonstrating a hybrid file serving setup. All services are configured for localhost development only and are not for production use.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lucidlines": "lucidlines"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juji/tusd-sws.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/juji/tusd-sws/issues"
+  },
+  "homepage": "https://github.com/juji/tusd-sws#readme",
+  "dependencies": {
+    "lucidlines": "^1.1.17"
+  }
+}

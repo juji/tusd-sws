@@ -1,0 +1,29 @@
+{
+	// LucidLines configuration file
+	// This file configures the LucidLines terminal streaming server
+	// See https://github.com/juji/lucidlines for documentation
+
+	// Port to run the server on (default: 8080)
+	port: 8888,
+
+	// Commands to run when the server starts
+	commands: [
+		{
+			// Display name for this command (shown in UI)
+			name: "SWS",
+
+			// Shell command to execute
+			command: "./sws.bash",
+		},
+		{
+			// Display name for this command (shown in UI)
+			name: "tusd",
+
+			// Shell command to execute
+			command: "docker-compose up",
+		},
+	],
+
+	// Enable development mode (default: false)
+	dev: false,
+}
