@@ -19,6 +19,7 @@ This project sets up a hybrid file serving solution using:
 - Docker and Docker Compose
 - Go (for scripts)
 - `wrk` (for benchmarking, optional)
+- `jq` (for hooks to parse JSON metadata, required for non-Docker tusd installations)
 
 ### Setup
 
@@ -108,7 +109,7 @@ Run benchmarks with: `./benchmark.sh`
 ## Hooks
 
 Tusd supports file hooks for customization:
-- `hooks/post-finish`: Renames uploaded files to original filenames and removes .info files after successful uploads
+- `hooks/post-finish`: Renames uploaded files to original filenames and removes .info files after successful uploads (requires `jq` for JSON parsing)
 
 ## Upload Failure Handling
 
@@ -172,6 +173,7 @@ crontab -e
 - **Files not accessible**: Ensure .info files exist for tusd (run `go run generate_info.go`), or use static-web-server
 - **Performance issues**: Use static-web-server for downloads, tusd only for uploads
 - **Port conflicts**: Change ports in docker-compose.yml or sws.bash
+- **Hook errors**: Ensure `jq` is installed for JSON parsing in hooks (automatically available in Docker)
 
 ## License
 
