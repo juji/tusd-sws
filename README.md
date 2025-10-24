@@ -140,7 +140,7 @@ Based on benchmarks with `wrk` (4 threads, 100 connections, 30s):
 
 Run benchmarks with: `./benchmark.sh`
 
-> **Note**: The current setup has tusd downloads disabled for production use. For running benchmarks that compare tusd vs static-web-server, temporarily enable tusd downloads by removing `-disable-download` from docker-compose.yml.
+> **Note**: The current setup has tusd downloads disabled for production use. For running benchmarks that compare tusd vs static-web-server, temporarily enable tusd downloads by removing `-disable-download` from docker-compose.yml and disable hooks by removing the hooks volume mount.
 
 
 
