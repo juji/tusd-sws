@@ -124,7 +124,7 @@ Access files via `http://localhost:8787/path/to/file`. For example:
 | `client/` | Next.js client application for testing uploads |
 | `npm run dev` | Start LucidLines dashboard to monitor logs from all services |
 
-## Performance
+## Download Performance
 
 Based on benchmarks with `wrk` (4 threads, 100 connections, 30s):
 
