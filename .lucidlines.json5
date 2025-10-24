@@ -10,14 +10,7 @@
 	commands: [
 		{
 			// Display name for this command (shown in UI)
-			name: "SWS",
-
-			// Shell command to execute
-			command: "./sws.bash",
-		},
-		{
-			// Display name for this command (shown in UI)
-			name: "tusd",
+			name: "tusdSWS",
 
 			// Shell command to execute
 			command: "docker-compose up",
