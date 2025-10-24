@@ -35,7 +35,13 @@ This project sets up a hybrid file serving solution using:
    ```
    Static-Web-Server will be available at `http://localhost:8787/`.
 
-3. **Generate .info files** for existing files (to make them recognizable by tusd):
+3. **Start the Next.js Client** (for testing uploads):
+   ```bash
+   cd client && npm run dev
+   ```
+   Client will be available at `http://localhost:3000/`.
+
+4. **Generate .info files** for existing files (optional, to make them recognizable by tusd):
    ```bash
    go run generate_info.go
    ```
@@ -43,6 +49,15 @@ This project sets up a hybrid file serving solution using:
 ## Usage
 
 ### Uploading Files
+
+**Option 1: Use the Next.js Client (Recommended)**
+1. Start the client: `cd client && npm run dev`
+2. Open `http://localhost:3000/` in your browser
+3. Click "Choose File" and select a file to upload
+4. Watch the progress bar during upload
+5. Uploaded files appear below with direct download links
+
+**Option 2: Use tus-js-client directly**
 Use any tus client to upload files to `http://localhost:8080/`. Example with tus-js-client:
 
 ```javascript
@@ -50,6 +65,10 @@ import { Upload } from 'tus-js-client';
 
 const upload = new Upload(file, {
   endpoint: 'http://localhost:8080/',
+  metadata: {
+    filename: file.name,
+    filetype: file.type,
+  },
   onSuccess: () => console.log('Upload complete'),
   onError: (error) => console.error(error)
 });
@@ -76,6 +95,7 @@ Access files via `http://localhost:8787/path/to/file`. For example:
 | `sws.bash` | Start static-web-server |
 | `hooks/post-finish` | Post-upload hook to rename files and clean up .info files |
 | `cleanup_stale_uploads.sh` | Script to remove stale .info files |
+| `client/` | Next.js client application for testing uploads |
 
 ## Performance
 
@@ -158,9 +178,10 @@ crontab -e
 ## Development
 
 ### Adding Files
-1. Upload via tusd or place directly in `./files`
-2. Run `go run generate_info.go` if needed for tusd recognition
-3. Access via static-web-server
+1. **Use the Next.js client**: `cd client && npm run dev` then upload via `http://localhost:3000/`
+2. **Upload directly**: Use any tus client to upload to `http://localhost:8080/`
+3. **Place manually**: Put files directly in `./files` and run `go run generate_info.go` if needed for tusd recognition
+4. **Access files**: Download via static-web-server at `http://localhost:8787/filename`
 
 ### Cleanup
 - Remove .info files: `./remove_info_files.sh`
