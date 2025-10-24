@@ -40,31 +40,33 @@ Perfect for development and debugging - see everything happening across your ser
 
 ### Setup
 
-1. **Start Tusd** (for uploads):
-   ```bash
-   docker-compose up
-   ```
-   Tusd will be available at `http://localhost:8080/` for uploads only.
-
-2. **Start Static-Web-Server** (for downloads):
-   ```bash
-   ./sws.bash
-   ```
-   Static-Web-Server will be available at `http://localhost:8787/`.
-
-3. **Start the Next.js Client** (for testing uploads):
-   ```bash
-   cd client && npm run dev
-   ```
-   Client will be available at `http://localhost:3000/`.
-
-4. **Alternative: Use LucidLines for Log Monitoring** (optional):
+1. **Start LucidLines Dashboard** (recommended for monitoring):
    ```bash
    npm run dev
    ```
    Opens a web dashboard at `http://localhost:8888/` to monitor logs from all services.
 
-5. **Generate .info files** for existing files (optional, to make them recognizable by tusd):
+2. **Alternative: Start services individually:**
+
+   **Start Tusd** (for uploads):
+   ```bash
+   docker-compose up
+   ```
+   Tusd will be available at `http://localhost:8080/` for uploads only.
+
+   **Start Static-Web-Server** (for downloads):
+   ```bash
+   ./sws.bash
+   ```
+   Static-Web-Server will be available at `http://localhost:8787/`.
+
+   **Start the Next.js Client** (for testing uploads):
+   ```bash
+   cd client && npm run dev
+   ```
+   Client will be available at `http://localhost:3000/`.
+
+3. **Generate .info files** for existing files (optional, to make them recognizable by tusd):
    ```bash
    go run generate_info.go
    ```
