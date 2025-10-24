@@ -71,7 +71,7 @@ Perfect for development and debugging - see everything happening across your ser
    ```bash
    ./run-parallel.bash
    ```
-   Runs both tusd and static-web-server in parallel. Suitable for development and single-machine production deployments.
+   Runs both tusd and static-web-server in parallel. Suitable for development and testing. **For production, use Docker or deploy services in separate environments.**
 
 3. **Generate .info files** for existing files (optional, to make them recognizable by tusd):
    ```bash
@@ -124,7 +124,7 @@ Access files via `http://localhost:8787/path/to/file`. For example:
 | `generate_info.go` | Go script to create .info files for existing files |
 | `remove_info_files.sh` | Remove all .info files |
 | `benchmark.sh` | Compare performance between tusd and static-web-server |
-| `run-parallel.bash` | Run both tusd and static-web-server in parallel (development/single-machine production) |
+| `run-parallel.bash` | Run both tusd and static-web-server in parallel (development/testing only) |
 | `hooks/post-finish` | Post-upload hook to rename files and clean up .info files |
 | `cleanup_stale_uploads.sh` | Script to remove stale .info files |
 | `client/` | Next.js client application for testing uploads |
@@ -254,81 +254,3 @@ For production environments, use the containerized setup with both services runn
 - **Security Headers**: CORS and security headers enabled for SWS
 - **Compression**: Gzip compression enabled for faster downloads
 - **Network Isolation**: Dedicated Docker network for service communication
-
-### Alternative: Systemd Services (Non-Docker Production)
-
-For production environments without Docker, use systemd services for process management:
-
-1. **Install services natively:**
-   ```bash
-   # Install tusd
-   go install github.com/tus/tusd/cmd/tusd@latest
-   
-   # Install static-web-server (choose one method)
-   # Option 1: Download binary
-   curl -L https://github.com/static-web-server/static-web-server/releases/latest/download/static-web-server-x86_64-unknown-linux-gnu.tar.gz | tar xz
-   sudo mv static-web-server /usr/local/bin/
-   
-   # Option 2: Build from source
-   cargo install static-web-server
-   ```
-
-2. **Create systemd service files:**
-
-   **Tusd service** (`/etc/systemd/system/tusd.service`):
-   ```ini
-   [Unit]
-   Description=Tusd Upload Server
-   After=network.target
-
-   [Service]
-   Type=simple
-   User=www-data
-   WorkingDirectory=/path/to/minio
-   ExecStart=/usr/local/bin/tusd -port 8080 -base-path / -hooks-dir ./hooks -disable-download -behind-proxy
-   Restart=always
-   RestartSec=5
-
-   [Install]
-   WantedBy=multi-user.target
-   ```
-
-   **Static-Web-Server service** (`/etc/systemd/system/static-web-server.service`):
-   ```ini
-   [Unit]
-   Description=Static Web Server
-   After=network.target
-
-   [Service]
-   Type=simple
-   User=www-data
-   WorkingDirectory=/path/to/minio
-   ExecStart=/usr/local/bin/static-web-server -p 8787 -d ./files --compression gzip --cors-allow-origins "*"
-   Restart=always
-   RestartSec=5
-
-   [Install]
-   WantedBy=multi-user.target
-   ```
-
-3. **Enable and start services:**
-   ```bash
-   sudo systemctl daemon-reload
-   sudo systemctl enable tusd static-web-server
-   sudo systemctl start tusd static-web-server
-   ```
-
-4. **Monitor services:**
-   ```bash
-   sudo systemctl status tusd
-   sudo systemctl status static-web-server
-   journalctl -u tusd -f
-   journalctl -u static-web-server -f
-   ```
-
-**Benefits of systemd approach:**
-- Automatic restarts on failure
-- Proper process management
-- Log integration with journald
-- Resource limits and security controls
-- Integration with monitoring systems

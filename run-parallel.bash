@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Script to run both tusd and static-web-server in parallel (non-Docker setup)
-# NOTE: Suitable for development and single-machine production deployments.
-# For multi-server or enterprise production, use Docker Compose or systemd services.
+# NOTE: Suitable for development and testing only.
+# For production, use Docker Compose or deploy services in separate environments.
 # Requires: tusd (install from https://github.com/tus/tusd) and static-web-server
 
 set -e  # Exit on any error
