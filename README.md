@@ -1,4 +1,4 @@
-# MinIO Tusd Static File Server
+# Static File Server
 
 This project sets up a hybrid file serving solution using:
 - **Tusd** (Go): Resumable upload server for handling file uploads
@@ -72,6 +72,8 @@ Access files via `http://localhost:8787/path/to/file`. For example:
 | `benchmark.sh` | Compare performance between tusd and static-web-server |
 | `sws.bash` | Start static-web-server |
 | `hooks/post_upload.sh` | Post-upload hook to clean up .info files |
+| `hooks/post_terminate.sh` | Post-terminate hook to clean up cancelled uploads |
+| `cleanup_stale_uploads.sh` | Script to remove stale .info files |
 
 ## Performance
 
@@ -106,6 +108,40 @@ Run benchmarks with: `./benchmark.sh`
 
 Tusd supports file hooks for customization:
 - `hooks/post_upload.sh`: Removes .info files after successful uploads
+- `hooks/post_terminate.sh`: Logs terminated uploads (tusd handles file cleanup automatically)
+
+## Upload Failure Handling
+
+Tusd handles different upload failure scenarios:
+
+### Terminated Uploads
+When clients explicitly terminate uploads (DELETE request), tusd automatically removes both `.info` and data files.
+
+### Stale/Failed Uploads
+Uploads that fail due to network issues, crashes, or abandoned connections leave behind `.info` files and partial data files.
+
+**Automatic Cleanup:**
+- Run `./cleanup_stale_uploads.sh [hours]` to remove uploads not modified in the specified hours (default: 24 hours)
+- This removes both `.info` files and their corresponding partial data files
+- Also cleans up orphaned `.info` files without data files
+
+**Examples:**
+- `./cleanup_stale_uploads.sh` (default: 24 hours)
+- `./cleanup_stale_uploads.sh 12` (12 hours)
+- `./cleanup_stale_uploads.sh 48` (48 hours)
+- `./cleanup_stale_uploads.sh 1` (1 hour)
+
+**Scheduled Cleanup:**
+Add to cron for automatic hourly cleanup:
+```bash
+# Edit crontab
+crontab -e
+
+# Add this line (replace /path/to with actual path):
+0 * * * * /path/to/minio/cleanup_stale_uploads.sh
+```
+
+
 
 ## API Endpoints
 
@@ -127,6 +163,7 @@ Tusd supports file hooks for customization:
 
 ### Cleanup
 - Remove .info files: `./remove_info_files.sh`
+- Clean stale uploads: `./cleanup_stale_uploads.sh`
 - Clean uploads: `rm -rf ./files/*`
 
 ## Troubleshooting
