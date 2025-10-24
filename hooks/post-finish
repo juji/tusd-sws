@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Post-finish hook to rename file to original filename and remove .info file
+# This preserves the original filename with extension
+
+echo "Post-finish hook triggered for upload $TUS_ID"
+echo "TUS_FILE_PATH: $TUS_FILE_PATH"
+echo "TUS_META_filename: $TUS_META_filename"
+echo "All TUS_META_* variables:"
+env | grep TUS_META_
+
+# If filename metadata exists, rename the file
+if [ -n "$TUS_META_filename" ]; then
+    ORIGINAL_NAME="$TUS_META_filename"
+    CURRENT_PATH="$TUS_FILE_PATH"
+    DIR_PATH=$(dirname "$CURRENT_PATH")
+    NEW_PATH="$DIR_PATH/$ORIGINAL_NAME"
+
+    echo "Renaming $CURRENT_PATH to $NEW_PATH"
+
+    # Check if target file already exists
+    if [ -f "$NEW_PATH" ]; then
+        echo "Warning: Target file $NEW_PATH already exists, skipping rename"
+    else
+        # Rename the file to use original filename
+        if mv "$CURRENT_PATH" "$NEW_PATH"; then
+            echo "Successfully renamed file"
+            # Update TUS_FILE_PATH for the .info removal below
+            TUS_FILE_PATH="$NEW_PATH"
+        else
+            echo "Failed to rename file"
+        fi
+    fi
+else
+    echo "No filename metadata found, keeping original filename"
+fi
+
+# Remove the .info file
+if [ -f "$TUS_FILE_PATH.info" ]; then
+    echo "Removing .info file: $TUS_FILE_PATH.info"
+    rm -f "$TUS_FILE_PATH.info"
+    echo "Removed .info file"
+else
+    echo ".info file not found: $TUS_FILE_PATH.info"
+fi
+
+echo "Post-finish hook completed for upload $TUS_ID"
