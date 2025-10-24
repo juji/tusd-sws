@@ -32,5 +32,5 @@
 	],
 
 	// Enable development mode (default: false)
-	dev: true,
+	dev: false,
 }
