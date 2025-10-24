@@ -5,6 +5,7 @@
 This project sets up a hybrid file serving solution using:
 - **Tusd** (Go): Resumable upload server for handling file uploads
 - **Static-Web-Server** (Rust): High-performance static file server for downloads
+- **Next.js Client**: Web interface for testing file uploads with progress tracking
 
 ## Architecture
 
