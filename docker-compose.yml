@@ -1,31 +1,51 @@
-
+# for local dev
 
 services:
+  # Upload server - handles resumable file uploads
   tusd:
     image: tusproject/tusd:latest
+    container_name: tusd-prod
     ports:
-      - "8080:8081"
+      - "8080:8080"
     volumes:
       - ./files:/srv/tusd-data/data
       - ./hooks:/srv/tusd-hooks
-    command: -port 8081 -base-path / -hooks-dir /srv/tusd-hooks -disable-download -behind-proxy
+    command: -port 8080 -base-path / -hooks-dir /srv/tusd-hooks -disable-download -behind-proxy
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8081/"]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/"]
       interval: 30s
       timeout: 10s
       retries: 3
+    environment:
+      - TUSD_HOOKS_ENABLED=true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
+  # Download server - high-performance static file serving
   static-web-server:
     image: joseluisq/static-web-server:latest
+    container_name: sws-prod
     ports:
       - "8787:8787"
     volumes:
       - ./files:/public
-    command: -p 8787 -d /public --compression gzip
+    command: -p 8787 -d /public --compression gzip --cors-allow-origins "*" --security-headers
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8787/"]
       interval: 30s
       timeout: 10s
       retries: 3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  default:
+    name: file-server-network
