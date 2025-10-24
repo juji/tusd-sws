@@ -118,7 +118,7 @@ Access files via `http://localhost:8787/path/to/file`. For example:
 | `generate_info.go` | Go script to create .info files for existing files |
 | `remove_info_files.sh` | Remove all .info files |
 | `benchmark.sh` | Compare performance between tusd and static-web-server |
-| `sws.bash` | Start static-web-server |
+| `run-parallel.bash` | Run both tusd and static-web-server in parallel (non-Docker) |
 | `hooks/post-finish` | Post-upload hook to rename files and clean up .info files |
 | `cleanup_stale_uploads.sh` | Script to remove stale .info files |
 | `client/` | Next.js client application for testing uploads |
