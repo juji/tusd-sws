@@ -13,11 +13,28 @@ This project sets up a hybrid file serving solution using:
 - **Storage**: Files stored in `./files` directory
 - **Metadata**: Tusd uses `.info` files for upload tracking
 
+## LucidLines Dashboard
+
+This project includes **LucidLines** - a terminal streaming server that provides a unified web interface for **monitoring logs** from all services simultaneously:
+
+- **Log Aggregation**: View real-time output from tusd, static-web-server, and client in one place
+- **Multi-terminal View**: No need to juggle multiple terminal tabs during development
+- **Service Monitoring**: Track startup, errors, and activity across the entire stack
+- **Web Interface**: Access logs via browser at `http://localhost:8888/`
+
+**Services Monitored:**
+- **SWS**: Static-Web-Server logs (port 8787 startup, requests, etc.)
+- **tusd**: Upload server logs via Docker Compose (port 8080 activity, hooks, etc.)
+- **client**: Next.js development server logs (port 3000 builds, requests, etc.)
+
+Perfect for development and debugging - see everything happening across your services in real-time!
+
 ## Quick Start
 
 ### Prerequisites
 - Docker and Docker Compose
 - Go (for scripts)
+- Node.js and npm (for client and LucidLines)
 - `wrk` (for benchmarking, optional)
 - `jq` (for hooks to parse JSON metadata, required for non-Docker tusd installations)
 
@@ -41,7 +58,13 @@ This project sets up a hybrid file serving solution using:
    ```
    Client will be available at `http://localhost:3000/`.
 
-4. **Generate .info files** for existing files (optional, to make them recognizable by tusd):
+4. **Alternative: Use LucidLines for Log Monitoring** (optional):
+   ```bash
+   npm run dev
+   ```
+   Opens a web dashboard at `http://localhost:8888/` to monitor logs from all services.
+
+5. **Generate .info files** for existing files (optional, to make them recognizable by tusd):
    ```bash
    go run generate_info.go
    ```
@@ -96,6 +119,7 @@ Access files via `http://localhost:8787/path/to/file`. For example:
 | `hooks/post-finish` | Post-upload hook to rename files and clean up .info files |
 | `cleanup_stale_uploads.sh` | Script to remove stale .info files |
 | `client/` | Next.js client application for testing uploads |
+| `npm run dev` | Start LucidLines dashboard to monitor logs from all services |
 
 ## Performance
 
@@ -195,6 +219,7 @@ crontab -e
 - **Performance issues**: Use static-web-server for downloads, tusd only for uploads
 - **Port conflicts**: Change ports in docker-compose.yml or sws.bash
 - **Hook errors**: Ensure `jq` is installed for JSON parsing in hooks (automatically available in Docker)
+- **LucidLines not working**: Ensure Node.js is installed and run `npm install` first
 
 ## License
 
