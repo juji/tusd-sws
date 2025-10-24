@@ -10,7 +10,7 @@ services:
     volumes:
       - ./files:/srv/tusd-data/data
       - ./hooks:/srv/tusd-hooks
-    command: -port 8081 -base-path / -hooks-dir /srv/tusd-hooks -disable-download
+    command: -port 8081 -base-path / -hooks-dir /srv/tusd-hooks -disable-download -behind-proxy
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8081/"]
