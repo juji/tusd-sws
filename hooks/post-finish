@@ -3,45 +3,55 @@
 # Post-finish hook to rename file to original filename and remove .info file
 # This preserves the original filename with extension
 
-echo "Post-finish hook triggered for upload $TUS_ID"
-echo "TUS_FILE_PATH: $TUS_FILE_PATH"
-echo "TUS_META_filename: $TUS_META_filename"
-echo "All TUS_META_* variables:"
-env | grep TUS_META_
+# Construct paths
+INFO_FILE="/srv/tusd-data/data/${TUS_ID}.info"
+DATA_FILE="/srv/tusd-data/data/${TUS_ID}"
 
-# If filename metadata exists, rename the file
-if [ -n "$TUS_META_filename" ]; then
-    ORIGINAL_NAME="$TUS_META_filename"
-    CURRENT_PATH="$TUS_FILE_PATH"
-    DIR_PATH=$(dirname "$CURRENT_PATH")
-    NEW_PATH="$DIR_PATH/$ORIGINAL_NAME"
+# Check if .info file exists
+if [ ! -f "$INFO_FILE" ]; then
+    echo '{"error": "Info file not found"}' >&2
+    echo '{}'
+    exit 1
+fi
 
-    echo "Renaming $CURRENT_PATH to $NEW_PATH"
+# Extract metadata from .info file using jq or grep
+if command -v jq >/dev/null 2>&1; then
+    # Use jq if available
+    FILENAME=$(jq -r '.MetaData.filename // empty' "$INFO_FILE")
+    FILEPATH=$(jq -r '.Storage.Path // empty' "$INFO_FILE")
+else
+    # Fallback to grep/sed
+    FILENAME=$(grep -o '"filename":"[^"]*"' "$INFO_FILE" | sed 's/"filename":"//;s/"//')
+    FILEPATH=$(grep -o '"Path":"[^"]*"' "$INFO_FILE" | sed 's/"Path":"//;s/"//')
+fi
+
+# If filename found, rename the file
+if [ -n "$FILENAME" ] && [ -n "$FILEPATH" ]; then
+    DIR_PATH=$(dirname "$FILEPATH")
+    NEW_PATH="$DIR_PATH/$FILENAME"
 
     # Check if target file already exists
     if [ -f "$NEW_PATH" ]; then
-        echo "Warning: Target file $NEW_PATH already exists, skipping rename"
+        echo "{\"error\": \"Target file $NEW_PATH already exists\"}" >&2
+        echo '{}'
+        exit 1
+    fi
+
+    # Rename the file
+    if mv "$FILEPATH" "$NEW_PATH"; then
+        # Remove the .info file
+        rm -f "$INFO_FILE"
+        echo '{}'
+        exit 0
     else
-        # Rename the file to use original filename
-        if mv "$CURRENT_PATH" "$NEW_PATH"; then
-            echo "Successfully renamed file"
-            # Update TUS_FILE_PATH for the .info removal below
-            TUS_FILE_PATH="$NEW_PATH"
-        else
-            echo "Failed to rename file"
-        fi
+        echo "{\"error\": \"Failed to rename file\"}" >&2
+        echo '{}'
+        exit 1
     fi
 else
-    echo "No filename metadata found, keeping original filename"
+    # No metadata found, just remove .info file
+    rm -f "$INFO_FILE"
 fi
 
-# Remove the .info file
-if [ -f "$TUS_FILE_PATH.info" ]; then
-    echo "Removing .info file: $TUS_FILE_PATH.info"
-    rm -f "$TUS_FILE_PATH.info"
-    echo "Removed .info file"
-else
-    echo ".info file not found: $TUS_FILE_PATH.info"
-fi
-
-echo "Post-finish hook completed for upload $TUS_ID"
+# Return success
+echo '{}'
