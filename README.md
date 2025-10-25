@@ -16,12 +16,7 @@ This project sets up a hybrid file serving solution using:
 
 ## LucidLines Dashboard
 
-This project uses **LucidLines** - a terminal streaming server that provides a unified web interface for **monitoring logs** from all services simultaneously:
-
-- **Log Aggregation**: View real-time output from tusd, static-web-server, and client in one place
-- **Multi-terminal View**: No need to juggle multiple terminal tabs during development
-- **Service Monitoring**: Track startup, errors, and activity across the entire stack
-- **Web Interface**: Access logs via browser at `http://localhost:8888/`
+This project uses **LucidLines** - a terminal streaming server that provides a unified web interface for **monitoring logs** from all services simultaneously. Access logs via browser at `http://localhost:8888/`
 
 **Services Monitored:**
 - **SWS**: Static-Web-Server logs (port 8787 startup, requests, etc.)
