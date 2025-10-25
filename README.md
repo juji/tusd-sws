@@ -49,17 +49,11 @@ Perfect for development and debugging - see everything happening across your ser
 
 2. **Alternative: Start services individually:**
 
-   **Start Tusd** (for uploads):
+   **Start Both Services (Docker)**:
    ```bash
    docker-compose up
    ```
-   Tusd will be available at `http://localhost:8080/` for uploads only.
-
-   **Start Static-Web-Server** (for downloads):
-   ```bash
-   ./sws.bash
-   ```
-   Static-Web-Server will be available at `http://localhost:8787/`.
+   Starts both tusd (port 8080) and static-web-server (port 8787) using Docker containers.
 
    **Start the Next.js Client** (for testing uploads):
    ```bash
@@ -159,7 +153,7 @@ Run benchmarks with: `./benchmark.sh`
 - Hooks: `./hooks` (post-upload cleanup)
 - Downloads: Disabled (`-disable-download`) - remove this flag to enable GET requests for benchmarking
 
-### Static-Web-Server (sws.bash)
+### Static-Web-Server
 - Port: 8787
 - Root: `./files`
 
