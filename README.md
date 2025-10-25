@@ -140,7 +140,7 @@ Run benchmarks with: `./benchmark.sh`
 
 ## Configuration
 
-### Tusd (docker-compose.yml)
+### Tusd
 - Port: 8080 (host) → 8081 (container)
 - Base path: `/`
 - Uploads: `./files` (mounted to `/srv/tusd-data/data`)
