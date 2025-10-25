@@ -61,12 +61,6 @@ Perfect for development and debugging - see everything happening across your ser
    ```
    Client will be available at `http://localhost:3000/`.
 
-   **Start Both Services (Non-Docker)**:
-   ```bash
-   ./run-parallel.bash
-   ```
-   Runs both tusd and static-web-server in parallel. Suitable for development and testing. **For production, use Docker or deploy services in separate environments.**
-
 3. **Generate .info files** for existing files (optional, to make them recognizable by tusd):
    ```bash
    go run generate_info.go
