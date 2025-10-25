@@ -141,7 +141,7 @@ Run benchmarks with: `./benchmark.sh`
 ## Configuration
 
 ### Tusd
-- Port: 8080 (host) → 8081 (container)
+- Port: 8080 (host) → 8080 (container)
 - Base path: `/`
 - Uploads: `./files` (mounted to `/srv/tusd-data/data`)
 - Hooks: `./hooks` (post-upload cleanup)
